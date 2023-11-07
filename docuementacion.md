@@ -55,3 +55,27 @@ Una vez cargado el [pedido origen](#id_pedido_origen) se harán los procedimient
 select * from ipcabpe; -- Cabecera de pedido
 select * from iplinpe; -- Líneas de pedido
 ```
+#### Cabecera de pedido
+A continuación se muestran los campos que forman la **clave primaria** de la cabecera del pedido.
+<table>
+<tr>
+        <th>Campo BBDD</th>
+        <th>Descripción</th>
+    </tr>
+    <tr>
+        <td>codped</td>
+        <td>Código del pedido</td>
+    </tr>
+    <tr>
+        <td>coddiv</td>
+        <td>División o compañía del pedido</td>
+    </tr>
+    <tr>
+        <td>seqped</td>
+        <td>Versión del pedido</td>
+    </tr>
+    <tr>
+        <td>anoped</td>
+        <td>Año del pedido</td>
+    </tr>  
+</table>
