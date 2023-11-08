@@ -232,6 +232,7 @@ Una vez que se han identificado las líneas con error, deberíamos recurrir al i
 Errores frecuentes:
 - "Este artículo no ha sido reportado"
 - "Las cantidades reales y reportadas no coinciden"
+	- Campos: En la línea de pedido **cantaservir** y **cantservida** deben tener el mismo valor.
 
 Ruta de interés - Documentos Reportados
 ```
