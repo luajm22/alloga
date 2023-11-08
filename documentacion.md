@@ -191,7 +191,7 @@ BEGIN
 	dbms_output.put_line('Se han encontrado ' || v_count || ' linea/s con status 100.');
 	dbms_output.put_line('');
 	dbms_output.put_line('SELECT *');
-    dbms_output.put_line('FROM iplinpe');
+    	dbms_output.put_line('FROM iplinpe');
 	dbms_output.put_line('WHERE coddiv = ''' || v_coddiv || '''');
 	dbms_output.put_line('AND codped = ''' || v_codped || '''');
 	dbms_output.put_line('AND status = 100;');
