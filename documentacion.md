@@ -1,18 +1,24 @@
 # DOCUMENTACIÓN
 
 ## Índice
-- [División](#id_division) 
-- [Pedidos](#id_pedidos)
-	- Cabecera de pedido
-	- Línea de pedido
-- [Status](#id_status)
 
+- [Estructura BBDD](#id_estructura)
+	- [División](#id_division) 
+	- [Pedidos](#id_pedidos)
+		- Pedido Origen
+		- Pedido Final
+		- Cabecera de pedido
+	- [Facturas](#id_facturas)
+	- [Status](#id_status)
 - [Incidencias](#id_incidencias)
 	- [Error: No consiguen facturar](#id_incidencia_no_facturar)
 - [Rutas de utilidad](#id_rutas)
 
  
- 
+<div id='id_estructura' />
+
+## Estructura BBDD
+
 <div id='id_division' />
  
 ### División
@@ -95,25 +101,51 @@ En esta tabla podemos ver la relación entre cada status y su descripción.
 
 Ejemplo:
 
-Al consultar una línea de pedido, podemos ver su status en el campo **codstatus???**. 
+Al consultar una línea de pedido, podemos ver su status en el campo **status**. 
 
 Para conocer la descripción de este estado debemos consultar la tabla **ipstatus**. 
 
 ```sql
-SELECT codigo_1, codigo_2, codigo_3
+SELECT tipostatus, status, desstatus
   FROM ipstatus
- WHERE codigo_1 = 'LP' -- Línea de Pedido
-   AND codigo_2 = '500'; -- Status
+ WHERE tipostatus = 'LP' -- Línea de Pedido
+   AND status = '500'; -- Status
 ```
 
-| codigo_1 | codigo_2 | codigo_3 |
+Un ejemplo con el contenido de la tabla podría ser el siguiente:
+
+| tipostatus | status | desstatus |
 |-----------|-----------|-----------|
-| LP | 500 | Descripción del estado | 
+| LP | 5000 | LINEA DE ACONDICIONAMIENTO | 
+| CP | -6950 | ERROR GENERANDO DEM. DE ACONDI | 
+
+<table>
+	<tr>
+        <th>Tipo Status</th>
+        <th>Descripción</th>
+    </tr>
+	<tr>
+        <td>LP</td>
+        <td>Línea de Pedido</td>
+    </tr>
+	<tr>
+        <td>CP</td>
+        <td>Cabecera de Pedido</td>
+    </tr>
+	<tr>
+        <td>IRS</td>
+        <td>Impresiones (Facturas)</td>
+    </tr>
+	<tr>
+        <td>CP</td>
+        <td>Cabecera de Pedido</td>
+    </tr>
+</table>
 
 
 <div id='id_incidencias' />
 
-## Incidencias 
+## Incidencias
 
 
 <div id='id_incidencia_no_facturar' />
@@ -191,7 +223,7 @@ BEGIN
 	dbms_output.put_line('Se han encontrado ' || v_count || ' linea/s con status 100.');
 	dbms_output.put_line('');
 	dbms_output.put_line('SELECT *');
-    	dbms_output.put_line('FROM iplinpe');
+    dbms_output.put_line('FROM iplinpe');
 	dbms_output.put_line('WHERE coddiv = ''' || v_coddiv || '''');
 	dbms_output.put_line('AND codped = ''' || v_codped || '''');
 	dbms_output.put_line('AND status = 100;');
@@ -202,16 +234,29 @@ END;
 ## Rutas de utilidad
 
 <table>
-<tr>
+	<tr>
         <th>Nombre</th>
         <th>URL</th>
+		<th>Observaciones</th>
     </tr>
-    <tr>
-        <td>Ejemplo 1</td>
-        <td>https://www.google.es</td>
+	<tr>
+        <td>Productividad</td>
+        <td>C:\Programacion\Productividad-Oracle</td>
+		<td></td>
     </tr>
-    <tr>
-        <td>Ejemplo 2</td>
-        <td>C:\dir\folder</td>
+	<tr>
+        <td>Reports .rpt (Crystal Report)</td>
+        <td>I:\proyectos\T2PICKING\IP6\RPT</td>
+		<td>Acceso a través de borox-ts-prd</td>
+    </tr>
+	<tr>
+        <td>Facturas</td>
+        <td>J:\wwwroot\xls\EXTRANET</td>
+		<td>Contiene todas las facturas impresas en la última hora. Un proceso automático limpia la carpeta cada hora. Acceso a través de borox-ts-prd</td>
+    </tr>
+	<tr>
+        <td>Traductores</td>
+        <td>C:\Programacion</td>
+		<td>Acceso a través de borox-ts-prd</td>
     </tr>
 </table>
