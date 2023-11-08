@@ -119,6 +119,7 @@ Un ejemplo con el contenido de la tabla podría ser el siguiente:
 | LP | 5000 | LINEA DE ACONDICIONAMIENTO | 
 | CP | -6950 | ERROR GENERANDO DEM. DE ACONDI | 
 
+A continuación se muestran algunos de los tipos más utilizados:
 <table>
 	<tr>
         <th>Tipo Status</th>
@@ -136,10 +137,6 @@ Un ejemplo con el contenido de la tabla podría ser el siguiente:
         <td>IRS</td>
         <td>Impresiones (Facturas)</td>
     </tr>
-	<tr>
-        <td>CP</td>
-        <td>Cabecera de Pedido</td>
-    </tr>
 </table>
 
 
@@ -152,11 +149,11 @@ Un ejemplo con el contenido de la tabla podría ser el siguiente:
 
 ### Error: No consiguen facturar (INCYTE)
 
-Para verificar que efectivamente, la factura que indican no ha sido facturada, debemos consultar el campo **contfac** en la tabla **ipcabped**. Si este campo tiene un valor distinto de 0, se ha podido facturar.
+Para verificar que efectivamente, la factura que indican no ha sido facturada, debemos consultar el campo **contfac** en la tabla **ipcabpe**. Si este campo tiene un valor distinto de 0, se ha podido facturar.
 
 ```sql
 SELECT contfac
-  FROM ipcabped
+  FROM ipcabpe
  WHERE coddiv = ''
    AND codped = '';
 ```
@@ -165,7 +162,7 @@ En caso de que el campo **contfac** tenga el valor 0, debemos comprobar el estad
 
 ```sql
 SELECT contfac
-  FROM iplinped
+  FROM iplinpe
  WHERE coddiv = ''
    AND codped = ''
    AND status = 100;
@@ -229,6 +226,18 @@ BEGIN
 	dbms_output.put_line('AND status = 100;');
 END;
 ```
+
+Una vez que se han identificado las líneas con error, deberíamos recurrir al informador e indicarle lo que sucede para cada artículo (para cada una de las líneas con status 100).
+
+Errores frecuentes:
+- "Este artículo no ha sido reportado"
+- "Las cantidades reales y reportadas no coinciden"
+
+Ruta de interés - Documentos Reportados
+```
+I:\FICHEROSIP6\CLIENTES\INCYTE\ENTRADA\BAK
+```
+
 <div id='id_rutas' />
 
 ## Rutas de utilidad
@@ -242,21 +251,26 @@ END;
 	<tr>
         <td>Productividad</td>
         <td>C:\Programacion\Productividad-Oracle</td>
-		<td></td>
+		<td>Traductor de productividades. Acceso a través de borox-ts-prd.</td>
     </tr>
 	<tr>
         <td>Reports .rpt (Crystal Report)</td>
         <td>I:\proyectos\T2PICKING\IP6\RPT</td>
-		<td>Acceso a través de borox-ts-prd</td>
+		<td>Acceso a través de borox-ts-prd.</td>
     </tr>
 	<tr>
         <td>Facturas</td>
         <td>J:\wwwroot\xls\EXTRANET</td>
-		<td>Contiene todas las facturas impresas en la última hora. Un proceso automático limpia la carpeta cada hora. Acceso a través de borox-ts-prd</td>
+		<td>Contiene todas las facturas impresas en la última hora. Un proceso automático limpia la carpeta cada hora. Acceso a través de borox-ts-prd.</td>
     </tr>
 	<tr>
         <td>Traductores</td>
         <td>C:\Programacion</td>
-		<td>Acceso a través de borox-ts-prd</td>
+		<td>Acceso a través de borox-ts-prd.</td>
+    </tr>
+	<tr>
+        <td>Documentos Reportados</td>
+        <td>I:\FICHEROSIP6\CLIENTES\INCYTE\ENTRADA\BAK</td>
+		<td>En ENTRADA quedan todos los documentos reportados por el cliente. A BAK pasarían todos los que hayan sido procesados.</td>
     </tr>
 </table>
