@@ -5,12 +5,19 @@
 - [Pedidos](#id_pedidos)
 	- Cabecera de pedido
 	- Línea de pedido
+- [Status](#id_status)
+
+- [Incidencias](#id_incidencias)
+	- [Error: No consiguen facturar](#id_incidencia_no_facturar)
+- [Rutas de utilidad](#id_rutas)
+
  
  
 <div id='id_division' />
  
 ### División
 Para consultar la **división** de la empresa o cliente en cuestión se consulta la tabla **ipdivis**. 
+
 ```sql
 select * from ipdivis;
 ```
@@ -80,17 +87,131 @@ A continuación se muestran los campos que forman la **clave primaria** de la ca
     </tr>  
 </table>
 
-<!--
-Finalmente, se muestra contenido de ejemplo de esta tabla:
+<div id='id_status' />
 
-| CODDIV | ANOPED | CODPED     | SEQPED | ANOALB | CODALB   | ANOGRUP | CODGRUP | CODSERIEPREP | CODSERIEEXP | TIPOPED | SUPEDIDO | SUFECHA | INFOCLIEXTRA | CODCLI     | DESCLI   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | NIF         | CONTACTO | DIRECCION              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      | DIRECCION1 | DIRECCION2 | DIRECCION3 | POBLACION | TELEFONO | CODPROV | DP    | PAIS | IDIOMA | MONEDA | NUMALBA | CODAREAEXPED | SWTANU | SWTRESERVASTOCK | SWTPREPARACION | SWTVALOR | SWTTOTAL | SWTPROFOR | SWTCUBETA | DESCUENTO | DESDESCUENTO | RECARGO | DESRECARGO | CONDPAGO | SWTGRUPO | PRIORIDADABS | PRIORIDADREL | URGENCIA | CODAGE | SWTPORTES | FECCAP  | HORACAP  | NLINEAS | SWTMODELO | REFMODELO | SWTREEXP | CODCLIREEXP   | DESCLIREEXP  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;               | NIFREEXP    | CONTAREEXP | DIRREEXP      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 | DIRREEXP1              | DIRREEXP2 | DIRREEXP3 | POBREEXP                 | PAISREEXP | TELREEXP | CODPROVREEXP | DPREEXP | CODDEMANDA | TIPODEMANDA | CODCOMEN | PESOPEDIDO | VOLPEDIDO | IMPTOTAL | FECSERVICIO | FECGRABACION | HORAGRABACION | FECRECEP | HORARECEP | FECAPER | HORAAPER | FECTERMIN | HORATERMIN | FECDEVUELTO | HORADEVUELTO | FECSALIDA | HORASALIDA | FECENTREGA | HORAENTREGA | STATUS | CODOPEMODIF | FECMODIF | HORAMODIF | PEDREC | IDMENSAVERI | TEXTOVERI | OBSERV1 | OBSERV2 | OBSERV3 | IVA | VALOR_IVA | COLCAMBIOVOL | HORARIO | CONDENT | CONTFAC | FORMAPAGO | DIASPAGO | CUENTABANC | DEVALB | INTFAH | FECHAH | HORAAH | FECFACTURA | SERIEFACT | SP | PERIFAC | CLICONT |
-|--------|--------|------------|--------|--------|----------|---------|---------|--------------|-------------|---------|----------|---------|--------------|------------|-----------------------------------|-------------|----------|--------------------------------|------------|------------|------------|-----------|----------|---------|-------|------|--------|--------|---------|--------------|--------|-----------------|----------------|----------|----------|-----------|-----------|-----------|--------------|---------|------------|----------|----------|--------------|--------------|----------|--------|-----------|---------|----------|---------|-----------|-----------|----------|---------------|-------------------------------------|-------------|------------|------------------------------------------|------------------------|-----------|-----------|--------------------------|-----------|----------|--------------|---------|------------|-------------|----------|------------|-----------|----------|-------------|--------------|---------------|----------|-----------|---------|----------|-----------|------------|-------------|--------------|-----------|------------|------------|-------------|--------|-------------|----------|-----------|--------|-------------|-----------|---------|---------|---------|-----|-----------|--------------|---------|---------|---------|-----------|----------|------------|--------|--------|--------|--------|------------|-----------|----|---------|---------|
-| 184    | 2023   | 0087092120 | 1      | 2023   | 61762830 | 0       | 0       | 396832       | 574937      | ZPN-L8  | 66028301 | 2460242 |              | 0000036831 | EL CORTE INGLES, S.A. (VALDEMORO) | ESA28017895 |          | CR ANDALUCIA K.23 MARGEN IZDA. |            |            | 26/10/2023 | VALDEMORO |          | 28      | 28340 | ES   | ES     |        | 0       | EXPED        | N      | N               | P              | S        | S        | N         | S         | 0         |              | 0       |            |          | N        | 99           | 99           | 99       | 010    | P         | 2460242 | 13:21:43 | 1       | J         | L8        | N        | 8422416200508 | EL CORTE INGLES, S.A. 920           | ESA28017895 |            | AVDA. FEDERICO SOTO, 1-3                 |                        |           |           | ALICANTE                 | ES        |          | 03           | 03003   | 10161906   | PEDIDOS     | 15098701 | 840        | 7020      | 0        | 2460244     | 2460242      | 13:30:22      | 2460242  | 13:30:30  | 2460242 | 18:19:39 | 2460243   | 09:57:37   | 2460243     |              | 2460243   | 11:23:23   | 2460245    | 15:31:00    | 20000  | VBFAESPED   | 2460243  | 11:30:51  |        | 0           |           |         | 15      | WE      | 0   | 0         |              |         | LF      | 0       |           | 0        |            | N      | N      |        |        | 0          |           |    |         |         |
-| 184    | 2023   | 0087092119 | 1      | 2023   | 61762820 | 0       | 0       | 396832       | 574937      | ZPN-L8  | 66028301 | 2460242 |              | 0000036831 | EL CORTE INGLES, S.A. (VALDEMORO) | ESA28017895 |          | CR ANDALUCIA K.23 MARGEN IZDA. |            |            | 26/10/2023 | VALDEMORO |          | 28      | 28340 | ES   | ES     |        | 0       | EXPED        | N      | N               | P              | S        | S        | N         | S         | 0         |              | 0       |            |          | N        | 99           | 99           | 99       | 010    | P         | 2460242 | 13:21:44 | 1       | J         | L8        | N        | 8422416200508 | HIPERCOR BURGOS 726                 | ESA28017895 |            | CTRA. MADRID-IRUN KM 236                 |                        |           |           | BURGOS                   | ES        |          | 09           | 09001   | 10161905   | PEDIDOS     | 15098700 | 972        | 13723     | 0        | 2460244     | 2460242      | 13:30:22      | 2460242  | 13:30:30  | 2460242 | 18:19:39 | 2460243   | 09:57:17   | 2460243     |              | 2460243   | 11:23:23   | 2460245    | 15:31:00    | 20000  | VBFAESPED   | 2460243  | 11:30:49  |        | 0           |           |         | 15      | WE      | 0   | 0         |              |         | LF      | 0       |           | 0        |            | N      | N      |        |        | 0          |           |    |         |         |
-| 184    | 2023   | 0087092118 | 1      | 2023   | 61762810 | 0       | 0       | 396832       | 574937      | ZPN-L8  | 66028301 | 2460242 |              | 0000036831 | EL CORTE INGLES, S.A. (VALDEMORO) | ESA28017895 |          | CR ANDALUCIA K.23 MARGEN IZDA. |            |            | 26/10/2023 | VALDEMORO |          | 28      | 28340 | ES   | ES     |        | 0       | EXPED        | N      | N               | P              | S        | S        | N         | S         | 0         |              | 0       |            |          | N        | 99           | 99           | 99       | 010    | P         | 2460242 | 13:21:44 | 1       | J         | L8        | N        | 8422416200508 | HIPERCOR CORNELLA 022/722           | ESA28017895 |            | COD.0022 SALVADOR DALI, 15-19            |                        |           |           | CORNELLA                 | ES        |          | 08           | 08940   | 10161904   | PEDIDOS     | 15098699 | 978        | 7020      | 0        | 2460244     | 2460242      | 13:30:23      | 2460242  | 13:30:30  | 2460242 | 18:19:38 | 2460243   | 09:56:50   | 2460243     |              | 2460243   | 11:23:23   | 2460245    | 15:31:00    | 20000  | VBFAESPED   | 2460243  | 11:30:47  |        | 0           |           |         | 15      | WE      | 0   | 0         |              |         | LF      | 0       |           | 0        |            | N      | N      |        |        | 0          |           |    |         |         |
-| 184    | 2023   | 0087092117 | 1      | 2023   | 61762800 | 0       | 0       | 396832       | 574937      | ZPN-L8  | 66028301 | 2460242 |              | 0000036831 | EL CORTE INGLES, S.A. (VALDEMORO) | ESA28017895 |          | CR ANDALUCIA K.23 MARGEN IZDA. |            |            | 26/10/2023 | VALDEMORO |          | 28      | 28340 | ES   | ES     |        | 0       | EXPED        | N      | N               | P              | S        | S        | N         | S         | 0         |              | 0       |            |          | N        | 99           | 99           | 99       | 010    | P         | 2460242 | 13:21:45 | 1       | J         | L8        | N        | 8422416200508 | HIPERCOR CAMPO DE LAS NACIONES 019/ | ESA28017895 |            | SUC 719 AVDA. DE LOS ANDES, 50           |                        |           |           | MADRID                   | ES        |          | 28           | 28042   | 10161903   | PEDIDOS     | 15098698 | 840        | 7020      | 0        | 2460244     | 2460242      | 13:30:23      | 2460242  | 13:30:30  | 2460242 | 18:19:38 | 2460243   | 09:55:54   | 2460243     |              | 2460243   | 11:23:23   | 2460245    | 15:31:00    | 20000  | VBFAESPED   | 2460243  | 11:30:45  |        | 0           |           |         | 15      | WE      | 0   | 0         |              |         | LF      | 0       |           | 0        |            | N      | N      |        |        | 0          |           |    |         |         |
+### Status
+
+En esta tabla podemos ver la relación entre cada status y su descripción.
+
+Ejemplo:
+
+Al consultar una línea de pedido, podemos ver su status en el campo **codstatus???**. 
+
+Para conocer la descripción de este estado debemos consultar la tabla **ipstatus**. 
+
+```sql
+SELECT codigo_1, codigo_2, codigo_3
+  FROM ipstatus
+ WHERE codigo_1 = 'LP' -- Línea de Pedido
+   AND codigo_2 = '500'; -- Status
+```
+
+| codigo_1 | codigo_2 | codigo_3 |
+|-----------|-----------|-----------|
+| LP | 500 | Descripción del estado | 
 
 
+<div id='id_incidencias' />
 
-->
+## Incidencias 
 
+
+<div id='id_incidencia_no_facturar' />
+
+### Error: No consiguen facturar (INCYTE)
+
+Para verificar que efectivamente, la factura que indican no ha sido facturada, debemos consultar el campo **contfac** en la tabla **ipcabped**. Si este campo tiene un valor distinto de 0, se ha podido facturar.
+
+```sql
+SELECT contfac
+  FROM ipcabped
+ WHERE coddiv = ''
+   AND codped = '';
+```
+
+En caso de que el campo **contfac** tenga el valor 0, debemos comprobar el estado de las líneas de pedido. En caso de que una (o más) líneas tengan **status** igual a 100, el pedido no facturará.
+
+```sql
+SELECT contfac
+  FROM iplinped
+ WHERE coddiv = ''
+   AND codped = ''
+   AND status = 100;
+```
+
+Con esta última consulta SQL podremos ver qué lineas están haciendo que no se pueda facturar el pedido.
+
+Generalmente los clientes utilizan el traductor **frmMain.frm** para facturar los pedidos, aquí podemos ver qué comprobaciones están haciendo sobre las líneas, que pueden hacer que finalicen con error.
+
+```sql
+DECLARE
+	v_coddiv	ipcabpe.coddiv%TYPE;
+	v_codped	ipcabpe.codped%TYPE;
+
+	v_contfac	ipcabpe.contfac%TYPE;
+	v_count		NUMBER;
+BEGIN
+
+	------------------------------------
+	--        DATOS INCIDENCIA        --
+	------------------------------------
+
+	v_coddiv := ''; -- División
+	v_codped := ''; -- Código de pedido
+	
+	------------------------------------
+
+	BEGIN
+		SELECT contfac
+		INTO v_contfac
+		FROM ipcabpe
+		WHERE coddiv = v_coddiv
+		AND codped = v_codped;
+	EXCEPTION
+		WHEN NO_DATA_FOUND THEN
+			dbms_output.put_line('No se ha encontrado el pedido indicado.');
+			RETURN;
+		WHEN TOO_MANY_ROWS THEN
+			dbms_output.put_line('Varios pedidos encontrados.');
+			RETURN;
+	END;
+
+	IF v_contfac != 0 THEN
+		dbms_output.put_line('El pedido ya se ha podido facturar.');
+		RETURN;
+	END IF;
+
+	SELECT COUNT(1)
+	  INTO v_count
+	  FROM iplinpe
+	 WHERE coddiv = v_coddiv
+	   AND codped = v_codped
+	   AND status = 100;
+	
+	dbms_output.put_line('Se han encontrado ' || v_count || ' linea/s con status 100.');
+	dbms_output.put_line('');
+	dbms_output.put_line('SELECT *');
+    dbms_output.put_line('FROM iplinpe');
+	dbms_output.put_line('WHERE coddiv = ''' || v_coddiv || '''');
+	dbms_output.put_line('AND codped = ''' || v_codped || '''');
+	dbms_output.put_line('AND status = 100;');
+END;
+```
+<div id='id_rutas' />
+
+## Rutas de utilidad
+
+<table>
+<tr>
+        <th>Nombre</th>
+        <th>URL</th>
+    </tr>
+    <tr>
+        <td>Ejemplo 1</td>
+        <td>https://www.google.es</td>
+    </tr>
+    <tr>
+        <td>Ejemplo 2</td>
+        <td>C:\dir\folder</td>
+    </tr>
+</table>
