@@ -475,7 +475,7 @@ C:\Programacion\Aplicaciones
 \\10.20.4.38\Programacion\Aplicaciones\
 ```
 
-8. Quitamos el comentario (#) a la línea del ejecutable correspondiente en el archivo **apps.ini.** que modificamos en el paso XXXXX y guardamos el archivo.
+8. Quitamos el comentario (#) a la línea del ejecutable correspondiente en el archivo **apps.ini.** que modificamos en el paso 2 y guardamos el archivo.
 
 9. Validamos que el programa quede ejecutándose.
 
