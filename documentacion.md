@@ -358,10 +358,7 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         IF p_job_id <> -99 THEN
-            apexc_scheduler.set_job_error_message(p_job_id => p_job_id,
-												  p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' ||
-                                                 to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||
-                                                SQLCODE || ': ' || SQLERRM);
+            apexc_scheduler.set_job_error_message(p_job_id => p_job_id,  p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' || to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' || SQLCODE || ': ' || SQLERRM);
         ELSE
             RAISE;
         END IF;
@@ -408,10 +405,7 @@ BEGIN
 EXCEPTION
     WHEN OTHERS THEN
         IF p_job_id <> -99 THEN
-            apexc_scheduler.set_job_error_message(p_job_id => p_job_id,
-												  p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' ||
-                                                 to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||
-                                                SQLCODE || ': ' || SQLERRM);
+            apexc_scheduler.set_job_error_message(p_job_id => p_job_id,  p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' || to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' || SQLCODE || ': ' || SQLERRM);
         ELSE
             RAISE;
         END IF;
