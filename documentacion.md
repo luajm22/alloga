@@ -16,6 +16,9 @@
 	- [Generación de carpetas](#id_incidencia_generacion_carpeta)
 	- [Proceso de envió de Facturas diarias .ZIP](#id_facturas_diarias_ZIP)
 
+- [Subidas a producción](#id_subir_a_produccion)
+	- [Subir Visual Basic a producción](#id_subir_visual_a_produccion)
+	- [Subir PL/SQL a producción](#id_subir_plsql_a_produccion)
 - [Rutas de utilidad](#id_rutas)
 
  
@@ -412,9 +415,11 @@ EXCEPTION
 END launch_facturacion_alloga;
 ```
 
+<div id='id_subir_a_produccion' />
+
+## Subidas a producción
 
 <div id='id_subir_visual_a_produccion' />
-
 
 ### Subir Visual Basic a producción
 
@@ -445,7 +450,7 @@ Si se hace una mopdificación en alguno de estos 4 proscesos, es necesario reali
 
 <div id='id_modificaciones_produccion' />
 
-#### Modificaciones en el servidor **\\\10.20.4.38 **
+#### Modificaciones en el servidor \\\10.20.4.38
  
 En caso de no modificar ninguno de estos 4 procesos, realizaríamos las modificaciones en:
 
@@ -479,6 +484,10 @@ C:\Programacion\Aplicaciones
 8. Quitamos el comentario (#) a la línea del ejecutable correspondiente en el archivo **apps.ini.** que modificamos en el paso 2 y guardamos el archivo.
 
 9. Validamos que el programa quede ejecutándose.
+
+<div id='id_subir_plsql_a_produccion' />
+
+### Subir PL/SQL a producción
 
 
 <div id='id_rutas' />
@@ -515,6 +524,16 @@ C:\Programacion\Aplicaciones
         <td>Documentos Reportados</td>
         <td>I:\FICHEROSIP6\CLIENTES\INCYTE\ENTRADA\BAK</td>
 		<td>En ENTRADA quedan todos los documentos reportados por el cliente. A BAK pasarían todos los que hayan sido procesados.</td>
+    </tr>
+	<tr>
+        <td>Objetos APEX</td>
+        <td>svn://svn-oracle.ahesp.net/apex/</td>
+		<td>Todos los objetos relacionados con APEX.</td>
+    </tr>
+	<tr>
+        <td>Objetos IP6</td>
+        <td>svn://svn-oracle.ahesp.net/IP6/</td>
+		<td>Todos los objetos relacionados con IP6.</td>
     </tr>
 </table>
 
