@@ -12,6 +12,8 @@
 	- [Status](#id_status)
 - [Incidencias](#id_incidencias)
 	- [Error: No consiguen facturar](#id_incidencia_no_facturar)
+	- [Contadores de facturación para facturas, abonos y rectificativas (BIOCON)](#id_incidencia_contador_facturacion)
+	- [Generación de carpetas](#id_incidencia_generacion_carpeta)
 - [Rutas de utilidad](#id_rutas)
 
  
@@ -239,6 +241,125 @@ Ruta de interés - Documentos Reportados
 I:\FICHEROSIP6\CLIENTES\INCYTE\ENTRADA\BAK
 ```
 
+La consulta que hace el traductor para ver los pedidos a facturar es la siguiente:
+
+```sql
+SELECT * 
+  FROM ipcabpe CP 
+ WHERE CODDIV='138' 
+   AND STATUS=18999 
+   AND NOT EXISTS (SELECT 1 
+   					 FROM IPLINPE LP 
+					WHERE LP.CODPED=CP.CODPED 
+					  AND LP.CODDIV=CP.CODDIV 
+					  AND LP.ANOPED=CP.ANOPED 
+					  AND LP.SEQPED=CP.SEQPED 
+					  AND LP.STATUS=100);
+```
+
+<div id='id_incidencia_contador_facturacion' />
+
+
+### Contadores de facturación para facturas, abonos y rectificativas (BIOCON)
+
+El objetivo de esta incidencia es configurar los contadores cuando hay un nuevo laboratorio o un nuevo cliente. Son genéricos, lo único que cambia será la división en función del cliente al que haya que configurarle los contadores. En los **INSERT** que se muestran a continuación, utilizamos la división **604**, de **BIOCON**.
+
+```sql
+Insert into T2P.XIPCONTFAC (DIVISION,NUMINI,PERIODO,SERIE,NUMACTUAL,TIPO,ABIERTO,TIPOPEDIDO,MASCARA) values ('604','1','2023','PP','2300001','F','S',null,null);
+Insert into T2P.XIPCONTFAC (DIVISION,NUMINI,PERIODO,SERIE,NUMACTUAL,TIPO,ABIERTO,TIPOPEDIDO,MASCARA) values ('604','1','2023','PA','2390001','A','S',null,null);
+Insert into T2P.XIPCONTFAC (DIVISION,NUMINI,PERIODO,SERIE,NUMACTUAL,TIPO,ABIERTO,TIPOPEDIDO,MASCARA) values ('604','1','2023','FI','2380001','R','S',null,null);
+```
+
+<div id='id_incidencia_generacion_carpeta' />
+
+### Generación de carpetas
+
+El objetivo de esta incidencia es generar las carpetas cuando hay un nuevo laboratorio o un nuevo cliente. Son genéricas, lo único que cambia será la división en función del cliente al que haya que generarle las carpetas.
+
+Carpeta en la que se generan los pdfs para el proceso diario de envío de ZIP.
+```
+J:\wwwroot\xls\604\FACTURAS\OUT
+```
+
+Para el envío y la recepción de archivos (Integración con el nuevo cliente).
+```
+I:\IP6DATOS\INTERFASES\BIOCON
+I:\IP6DATOS\INTERFASES\BIOCON\bajar
+I:\IP6DATOS\INTERFASES\BIOCON\subir
+I:\IP6DATOS\INTERFASES\BIOCON\errores
+```
+
+<div id='id_estructura_nombre_rpt' />
+
+
+### Estructura del nombre de los reportes
+
+El nombre de los reportes debe seguir la siguiente estructura:
+
+"IPALBARAN" + TIPO + CODIGO DIVISION
+
+Un ejemplo de nombre de reporte podría ser: **IPALBARANV160.rpt**
+
+<table>
+	<tr>
+        <th>Tipo</th>
+        <th>Descripción</th>
+    </tr>
+	<tr>
+        <td>V</td>
+        <td>ALBARAN</td>
+    </tr>
+	<tr>
+        <td>F</td>
+        <td>FACTURA</td>
+    </tr>
+	<tr>
+        <td>P</td>
+        <td>PROFORMA</td>
+    </tr>
+</table>
+
+
+<div id='id_subir_visual_a_produccion' />
+
+### Subir Visual a producción
+
+1. Modificamos el archivo original **.frm** en el ambiente de pruebas.
+2. Se crea el ejecutable **.exe** en el ambiente de pruebas, que es donde hemos hecho nuestras modificaciones. 
+Para crear el ejecutable: Archivo > Generar **nombre_ejecutable**
+Es necesario crear una copia de seguridad del ejecutable anterior.
+3. Se copia el **.frm** en el SVN
+
+En el servidor **borox-ts-prd** están ejecutándose 4 procesos: Productividades, Informes, Vincilab y SII-AH.
+
+Si se hace una mopdificación en alguno de estos 4 procesos, es necesario realizar las modificaciones en el servidor **borox-ts-prd**.
+
+En caso de no modificar ninguno de estos 4 procesos, realizaríamos las modificaciones en:
+
+```
+\\10.20.4.38  Producción
+```
+
+En el servidor Producción, hacemos un comentario (#) a la línea del ejecutable correspondiente en la ruta 
+```
+C:\Programacion\Aplicaciones
+```
+El archivo a modificar es **apps.ini.**  (Guardo el archivo).
+ 
+Renombrar con la fecha del día el .exe que se encuentra productivo y lo CORTAR y pegar en \\10.20.4.38\Programacion\Aplicaciones\Versiones antiguas
+ 
+Copiar el .frm nuevo modificado del SVN y dejarlo en la carpeta correspondiente del traductor
+\\10.20.4.38\Programacion\
+ 
+Copiar el .exe en la carpeta \\10.20.4.38\Programacion\Aplicaciones\
+ 
+Quitar comentario (#) a la línea del ejecutable correspondiente C:\Programacion\Aplicaciones
+archivo apps.ini.  (Guardo el archivo).
+ 
+Validar que el programa quede ejecutándose. 
+
+
+
 <div id='id_rutas' />
 
 ## Rutas de utilidad
@@ -275,3 +396,4 @@ I:\FICHEROSIP6\CLIENTES\INCYTE\ENTRADA\BAK
 		<td>En ENTRADA quedan todos los documentos reportados por el cliente. A BAK pasarían todos los que hayan sido procesados.</td>
     </tr>
 </table>
+
