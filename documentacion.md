@@ -343,31 +343,30 @@ PROCEDURE launch_facturacion_alloga(p_job_id IN NUMBER,p_date IN DATE DEFAULT sy
     l_error          VARCHAR2(32676);
     l_coddiv        VARCHAR2(12);
     l_date          DATE;
-  BEGIN
+BEGIN
  
-    dbms_output.put_line('l_date: ' || p_date);
-    l_date := nvl(p_date,sysdate);
-    dbms_output.put_line('l_date: ' || l_date);
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '122',p_date => l_date,p_prefix => 'BLF-INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '193',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '471',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '473',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '474',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '476',p_date => l_date,p_prefix => 'OUT\INVOICE');
- 
-  EXCEPTION
-       WHEN OTHERS THEN
+	dbms_output.put_line('l_date: ' || p_date);
+	l_date := nvl(p_date,sysdate);
+	dbms_output.put_line('l_date: ' || l_date);
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '122',p_date => l_date,p_prefix => 'BLF-INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '193',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '471',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '473',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '474',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '476',p_date => l_date,p_prefix => 'OUT\INVOICE');
+
+EXCEPTION
+    WHEN OTHERS THEN
         IF p_job_id <> -99 THEN
-            apexc_scheduler.set_job_error_message(p_job_id => p_job_id
-                                                 ,p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' ||
-                                                               to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||
-                                                               SQLCODE || ': ' || SQLERRM);
+            apexc_scheduler.set_job_error_message(p_job_id => p_job_id,
+												  p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' ||
+                                                 to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||
+                                                SQLCODE || ': ' || SQLERRM);
         ELSE
             RAISE;
         END IF;
-  END launch_facturacion_alloga;
+END launch_facturacion_alloga;
 ```
-
 Agregamos una línea para cada nueva división, en nuestro caso las divisiones **602** y **604**.
 ```sql
 launch_factura_division(p_job_id => p_job_id,p_coddiv => '602',p_date => l_date,p_prefix => 'OUT\INVOICE');
@@ -385,38 +384,38 @@ PROCEDURE launch_facturacion_alloga(p_job_id IN NUMBER,p_date IN DATE DEFAULT sy
     l_error          VARCHAR2(32676);
     l_coddiv        VARCHAR2(12);
     l_date          DATE;
-  BEGIN
+BEGIN
  
-    dbms_output.put_line('l_date: ' || p_date);
-    l_date := nvl(p_date,sysdate);
-    dbms_output.put_line('l_date: ' || l_date);
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '122',p_date => l_date,p_prefix => 'BLF-INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '193',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '471',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '473',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '474',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '476',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    
+	dbms_output.put_line('l_date: ' || p_date);
+	l_date := nvl(p_date,sysdate);
+	dbms_output.put_line('l_date: ' || l_date);
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '122',p_date => l_date,p_prefix => 'BLF-INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '193',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '471',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '473',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '474',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '476',p_date => l_date,p_prefix => 'OUT\INVOICE');
+
 	----------------------------------------------------------------------------------------------------------
 	--                                           NUEVAS LÍNEAS                                              --
 	----------------------------------------------------------------------------------------------------------
 	
 	launch_factura_division(p_job_id => p_job_id,p_coddiv => '602',p_date => l_date,p_prefix => 'OUT\INVOICE');
-    launch_factura_division(p_job_id => p_job_id,p_coddiv => '604',p_date => l_date,p_prefix => 'OUT\INVOICE');
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '604',p_date => l_date,p_prefix => 'OUT\INVOICE');
 
 	----------------------------------------------------------------------------------------------------------
  
-  EXCEPTION
-       WHEN OTHERS THEN
+EXCEPTION
+    WHEN OTHERS THEN
         IF p_job_id <> -99 THEN
-            apexc_scheduler.set_job_error_message(p_job_id => p_job_id
-                                                 ,p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' ||
-                                                               to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||
-                                                               SQLCODE || ': ' || SQLERRM);
+            apexc_scheduler.set_job_error_message(p_job_id => p_job_id,
+												  p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' ||
+                                                 to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||
+                                                SQLCODE || ': ' || SQLERRM);
         ELSE
             RAISE;
         END IF;
-  END launch_facturacion_alloga;
+END launch_facturacion_alloga;
 ```
 
 
