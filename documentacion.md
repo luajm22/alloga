@@ -14,6 +14,8 @@
 	- [Error: No consiguen facturar](#id_incidencia_no_facturar)
 	- [Contadores de facturación para facturas, abonos y rectificativas (BIOCON)](#id_incidencia_contador_facturacion)
 	- [Generación de carpetas](#id_incidencia_generacion_carpeta)
+	- [Proceso de envió de Facturas diarias .ZIP](#id_facturas_diarias_ZIP)
+
 - [Rutas de utilidad](#id_rutas)
 
  
@@ -222,7 +224,7 @@ BEGIN
 	dbms_output.put_line('Se han encontrado ' || v_count || ' linea/s con status 100.');
 	dbms_output.put_line('');
 	dbms_output.put_line('SELECT *');
-    dbms_output.put_line('FROM iplinpe');
+	dbms_output.put_line('FROM iplinpe');
 	dbms_output.put_line('WHERE coddiv = ''' || v_coddiv || '''');
 	dbms_output.put_line('AND codped = ''' || v_codped || '''');
 	dbms_output.put_line('AND status = 100;');
@@ -319,10 +321,109 @@ Un ejemplo de nombre de reporte podría ser: **IPALBARANV160.rpt**
     </tr>
 </table>
 
+<div id='id_facturas_diarias_ZIP' />
+
+
+### Proceso de envió de Facturas diarias .ZIP
+
+El proceso de generación de facturas se ha migrado a APEX. 
+Para incluír un nuevo proceso de creación de facturas **.pdf** se debe hacer en la base datos de APEX-INT en el esquema:
+```
+APPS - Package APPS_REPORTING_PKG - PROCEDURE launch_facturacion_alloga
+```
+
+En nuestro caso el archivo origal era este:
+
+```sql
+PROCEDURE launch_facturacion_alloga(p_job_id IN NUMBER,p_date IN DATE DEFAULT sysdate) IS
+    l_start_date     VARCHAR2(30) := to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss');
+    l_retcode        NUMBER;
+    l_errbuf         VARCHAR2(32676);
+    l_step           VARCHAR2(255);
+    l_error          VARCHAR2(32676);
+    l_coddiv        VARCHAR2(12);
+    l_date          DATE;
+  BEGIN
+ 
+    dbms_output.put_line('l_date: ' || p_date);
+    l_date := nvl(p_date,sysdate);
+    dbms_output.put_line('l_date: ' || l_date);
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '122',p_date => l_date,p_prefix => 'BLF-INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '193',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '471',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '473',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '474',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '476',p_date => l_date,p_prefix => 'OUT\INVOICE');
+ 
+  EXCEPTION
+       WHEN OTHERS THEN
+        IF p_job_id <> -99 THEN
+            apexc_scheduler.set_job_error_message(p_job_id => p_job_id
+                                                 ,p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' ||
+                                                               to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||
+                                                               SQLCODE || ': ' || SQLERRM);
+        ELSE
+            RAISE;
+        END IF;
+  END launch_facturacion_alloga;
+```
+
+Agregamos una línea para cada nueva división, en nuestro caso las divisiones **602** y **604**.
+```sql
+launch_factura_division(p_job_id => p_job_id,p_coddiv => '602',p_date => l_date,p_prefix => 'OUT\INVOICE');
+launch_factura_division(p_job_id => p_job_id,p_coddiv => '604',p_date => l_date,p_prefix => 'OUT\INVOICE');
+```
+
+El archivo final quedaría como se muestra a continuación:
+
+```sql
+PROCEDURE launch_facturacion_alloga(p_job_id IN NUMBER,p_date IN DATE DEFAULT sysdate) IS
+    l_start_date     VARCHAR2(30) := to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss');
+    l_retcode        NUMBER;
+    l_errbuf         VARCHAR2(32676);
+    l_step           VARCHAR2(255);
+    l_error          VARCHAR2(32676);
+    l_coddiv        VARCHAR2(12);
+    l_date          DATE;
+  BEGIN
+ 
+    dbms_output.put_line('l_date: ' || p_date);
+    l_date := nvl(p_date,sysdate);
+    dbms_output.put_line('l_date: ' || l_date);
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '122',p_date => l_date,p_prefix => 'BLF-INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '193',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '471',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '473',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '474',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '476',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    
+	----------------------------------------------------------------------------------------------------------
+	--                                           NUEVAS LÍNEAS                                              --
+	----------------------------------------------------------------------------------------------------------
+	
+	launch_factura_division(p_job_id => p_job_id,p_coddiv => '602',p_date => l_date,p_prefix => 'OUT\INVOICE');
+    launch_factura_division(p_job_id => p_job_id,p_coddiv => '604',p_date => l_date,p_prefix => 'OUT\INVOICE');
+
+	----------------------------------------------------------------------------------------------------------
+ 
+  EXCEPTION
+       WHEN OTHERS THEN
+        IF p_job_id <> -99 THEN
+            apexc_scheduler.set_job_error_message(p_job_id => p_job_id
+                                                 ,p_message => 'An unexpected error ocurred for launch_facturacion_alloga ' ||
+                                                               to_char(SYSDATE, 'dd/mm/yyyy hh24:mi:ss') || ' - ' ||
+                                                               SQLCODE || ': ' || SQLERRM);
+        ELSE
+            RAISE;
+        END IF;
+  END launch_facturacion_alloga;
+```
+
 
 <div id='id_subir_visual_a_produccion' />
 
-### Subir Visual a producción
+
+### Subir Visual Basic a producción
 
 1. Modificamos el archivo original **.frm** en el ambiente de pruebas.
 2. Se crea el ejecutable **.exe** en el ambiente de pruebas, que es donde hemos hecho nuestras modificaciones. 
@@ -330,9 +431,19 @@ Para crear el ejecutable: Archivo > Generar **nombre_ejecutable**
 Es necesario crear una copia de seguridad del ejecutable anterior.
 3. Se copia el **.frm** en el SVN
 
+----- Opcion 1
+
 En el servidor **borox-ts-prd** están ejecutándose 4 procesos: Productividades, Informes, Vincilab y SII-AH.
 
-Si se hace una mopdificación en alguno de estos 4 procesos, es necesario realizar las modificaciones en el servidor **borox-ts-prd**.
+Si se hace una mopdificación en alguno de estos 4 proscesos, es necesario realizar las modificaciones en el servidor **borox-ts-prd**.
+
+1. En la carpeta del Traductor que hemos modificado hacemos las copias de seguridad de los archivos **.frm** y **.exe**. 
+2. Detenemos el proceso (vemos en pantalla que se está ejecutando), el proceso de detención puede llevar un tiempo en caso de que tenga alguna tarea incompleta. Una vez que se haya detenido, lo cerramos.
+3. Copiamos el **.frm** y el **.exe** del ambiente de pruebas a producción.
+4. Generamos el acceso directo y lo reemplazamos en el Escritorio del servidor.
+5. Ejecutamos el servicio (debemos volver a verlo por pantalla, como estaba al principio). Lanzamos la ejecución del servicio desde el Acceso Directo que acabamos de crear en el escritorio para verificar que esté funcionado correctamente.
+
+---- Opcion 2
 
 En caso de no modificar ninguno de estos 4 procesos, realizaríamos las modificaciones en:
 
@@ -340,25 +451,37 @@ En caso de no modificar ninguno de estos 4 procesos, realizaríamos las modifica
 \\10.20.4.38  Producción
 ```
 
-En el servidor Producción, hacemos un comentario (#) a la línea del ejecutable correspondiente en la ruta 
+Abrimos el archivo **apps.ini.** almacenado en la ruta:
 ```
 C:\Programacion\Aplicaciones
 ```
-El archivo a modificar es **apps.ini.**  (Guardo el archivo).
+Hacemos un comentario (#) a la línea del ejecutable correspondiente y guardamos el archivo.
+
+Hacemos las copias de seguridad de los archivos **.frm** y **.exe**. 
+
+Cortar y pegar las copias de seguridad en la ruta:
+
+ ```
+ \\10.20.4.38\Programacion\Aplicaciones\Versiones antiguas
+ ```
+
+Detenemos el proceso (vemos en pantalla que se está ejecutando), el proceso de detención puede llevar un tiempo en caso de que tenga alguna tarea incompleta. Una vez que se haya detenido, lo cerramos.
  
-Renombrar con la fecha del día el .exe que se encuentra productivo y lo CORTAR y pegar en \\10.20.4.38\Programacion\Aplicaciones\Versiones antiguas
- 
-Copiar el .frm nuevo modificado del SVN y dejarlo en la carpeta correspondiente del traductor
+Copiar el **.frm** y dejarlo en la carpeta correspondiente del traductor:
+```
 \\10.20.4.38\Programacion\
+```
  
-Copiar el .exe en la carpeta \\10.20.4.38\Programacion\Aplicaciones\
+Copiar el **.exe** en la carpeta:
+```
+\\10.20.4.38\Programacion\Aplicaciones\
+```
  
-Quitar comentario (#) a la línea del ejecutable correspondiente C:\Programacion\Aplicaciones
-archivo apps.ini.  (Guardo el archivo).
+Quitamos el comentario (#) a la línea del ejecutable correspondiente en el archivo **apps.ini.** que modificamos en el paso XXXXX y guardamos el archivo.
  
-Validar que el programa quede ejecutándose. 
+Validamos que el programa quede ejecutándose. 
 
-
+--------- Fin opcion 2
 
 <div id='id_rutas' />
 
