@@ -426,7 +426,8 @@ Para crear el ejecutable: Archivo > Generar **nombre_ejecutable**
 
 Es necesario crear una copia de seguridad del ejecutable anterior.
 
-**Paso 3.** Se copia el **.frm** en el SVN
+**Paso 3.** Se copia el **.frm** en el SVN. 
+
 **Paso 4.** En este paso se presentan dos opciones:
 1. En el servidor **borox-ts-prd** están ejecutándose 4 procesos: Productividades, Informes, Vincilab y SII-AH.
 Si se hace una mopdificación en alguno de estos 4 proscesos, es necesario realizar las modificaciones en el servidor **borox-ts-prd**  [Ver pasos](#id_modificaciones_borox).
@@ -444,7 +445,7 @@ Si se hace una mopdificación en alguno de estos 4 proscesos, es necesario reali
 
 <div id='id_modificaciones_produccion' />
 
-#### Modificaciones en **producción**
+#### Modificaciones en el servidor **\\\10.20.4.38 **
  
 En caso de no modificar ninguno de estos 4 procesos, realizaríamos las modificaciones en:
 
