@@ -489,6 +489,12 @@ C:\Programacion\Aplicaciones
 
 ### Subir PL/SQL a producción
 
+1. Obtenemos el bloqueo del fuente en SVN.
+2. Modificamos el objeto en el ambiente de desarrollo.
+3. Copiamos el **.sql** en el SVN.
+4. Ejecutamos/Compilamos el **.sql** en producción.
+5. Hacer Commit en SVN.
+
 
 <div id='id_rutas' />
 
