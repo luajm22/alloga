@@ -16,6 +16,17 @@
 	- [Generación de carpetas](#id_incidencia_generacion_carpeta)
 	- [Proceso de envió de Facturas diarias .ZIP](#id_facturas_diarias_ZIP)
 	- [Integración GATEWAY](#id_integracion_gateway)
+		- [ProductXR](#id_productxr)
+		- [CustomerXR](#id_customerxr)
+		- [PO & ASN Confirmation](#id_po_asn_confirmation)
+		- [Ship Confirmation](#id_ship_confirmation)
+		- [Proof Of Delivery (POD)](#id_pod)
+		- [Stock Transactions](#id_stock_transaction)
+		- [Stock Reconciliation](#id_stock_reconciliation)
+		- [Invoices](#id_invoices)
+		- [Payments (cash receipt)](#id_payments)
+		- [OpenInvoices (aged balance)](#id_openinvoices)
+		- [WIP (Work In Progreess)](#id_wip)
 
 - [Subidas a producción](#id_subir_a_produccion)
 	- [Subir Visual Basic a producción](#id_subir_visual_a_produccion)
@@ -2047,13 +2058,13 @@ ENDBLOQUE
 
 #### Payments (cash receipt)
 
-No fueron generados para KARO.
+Preguntado a comercial si es para hacer o no. Los cobros no están en IP6, están en TELNET. Se ha pedido a comercial si esto se puede sacar del scope del proyecto.
 
 <div id ='id_openinvoices' />
 
 #### OpenInvoices (aged balance)
 
-No fueron generados para KARO.
+Preguntado a comercial si es para hacer o no. Los cobros no están en IP6, están en TELNET. Se ha pedido a comercial si esto se puede sacar del scope del proyecto.
 
 <div id ='id_wip' />
 
