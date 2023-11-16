@@ -3,6 +3,7 @@
 ## Índice
 
 - [Estructura BBDD](#id_estructura)
+	- [Diagrama general](#id_diagrama_general) 	
 	- [División](#id_division) 
 	- [Pedidos](#id_pedidos)
 		- [Pedido Origen](#id_pedido_origen)
@@ -38,6 +39,85 @@
 <div id='id_estructura' />
 
 ## Estructura BBDD
+
+<div id='id_diagrama_general' />
+
+### Diagrama General
+
+```mermaid
+classDiagram
+    class Division {
+    }
+
+    class Cliente {
+    }
+
+    class Articulo {
+    }
+
+    class Pedido {
+    }
+
+    class Cabecera_Pedido {
+    }
+
+    class Linea_Pedido {
+    }
+
+    class Agencia_Transporte {
+    }
+
+    class Albaran {
+    }
+
+    class Configuracion_Agencias {
+    }
+
+    class Caracteristicas_Articulos {
+    }
+
+    class Factura {
+    }
+
+    Division -- Pedido : "Sirve"
+    Cliente -- Pedido : "Realiza"
+    Division -- Cliente : "Tiene"
+    Pedido -- Cabecera_Pedido : "Tiene"
+    Pedido -- Agencia_Transporte : "Asignado a"
+    Agencia_Transporte -- Configuracion_Agencias: "Tiene"
+    Pedido -- Albaran : "Genera"
+    Cliente -- Configuracion_Agencias : "Tiene"
+    Cabecera_Pedido -- Linea_Pedido : "Tiene"
+    Linea_Pedido -- Articulo: "Tiene"
+    Articulo -- Caracteristicas_Articulos : "Descrito por"
+    Pedido -- Factura : "Genera"
+```
+
+La BBDD representa diversas **Divisiones** que operan como empresas proveedoras. Estas, gestionan sus propios **Clientes**, a quienes deben suministrar los **Artículos** solicitados a través de **Pedidos**.
+
+Los Pedidos se componen de una **Cabecera** y **Líneas** de pedido. Para cada cabecera, existen una o varias líneas.
+
+A los pedidos se le asigna una **Agencia de Transporte**, que tiene una **Configuración** específica por Cliente.
+
+Las líneas de pedido contienen los artículos que se servirán a los clientes. Además se pueden consultar las **Características** detalladas de cada artículo (peso, longitud...).
+
+Después de realizar la entrega del pedido al cliente, se emite un **Albarán** que recopila los datos del pedido, así como los detalles de los paquetes y artículos suministrados.
+
+Algunos clientes tienen un servicio de facturación. Este proceso resulta en una **Factura** que contiene datos del pedido (cálculos, precio, impuestos, forma de pago...).
+
+Cada una de estas entidades, se describen con más detalle en la sección correspondiente.
+
+- [División](#id_division)
+- Cliente
+- [Pedido](#id_pedidos)
+	- Cabecera
+	- Línea
+- Artículo
+	- Características detalladas
+- Agencia de Transporte
+	- Configuración de agencia
+- Albarán
+- Factura
 
 <div id='id_division' />
  
@@ -2443,5 +2523,6 @@ Valida que la factura esté 0 o null y status mayor a 7000.
 Algunos clientes asignan el consecutivo (contfac) de su facturación a través de su propio traductor. Lo harán en este caso, tomando el máximo número de factura + 1.
 
 Si no está en el trigger, puede estar en el traductor (Visual Basic) o tener un PROCEDURE específico.
+
 
 
