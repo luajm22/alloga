@@ -18,7 +18,7 @@
 	- [Contadores de facturación para facturas, abonos y rectificativas (BIOCON)](#id_incidencia_contador_facturacion)
 	- [Generación de carpetas](#id_incidencia_generacion_carpeta)
 	- [Proceso de envió de Facturas diarias .ZIP](#id_facturas_diarias_ZIP)
-	- [Integración GATEWAY](#id_integracion_gateway)
+	- [Integración GATEWAY (KARO)](#id_integracion_gateway)
 		- [ProductXR](#id_productxr)
 		- [CustomerXR](#id_customerxr)
 		- [PO & ASN Confirmation](#id_po_asn_confirmation)
