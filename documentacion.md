@@ -10,6 +10,8 @@
 		- [Pedido Final](#id_pedido_final)
 		- [Cabecera de pedido](#id_cabecera_pedido)
 	- [Status](#id_status)
+    - [Procesos](#id_procesos)
+        -[Asignación de Agencias de Transporte](#id_asignacion_agencias_transporte)
 
 - [Incidencias](#id_incidencias)
 	- [Error: No consiguen facturar (INCYTE)](#id_incidencia_no_facturar)
@@ -46,51 +48,30 @@
 
 ```mermaid
 classDiagram
-    class Division {
-    }
 
-    class Cliente {
-    }
-
-    class Articulo {
-    }
-
-    class Pedido {
-    }
-
-    class Cabecera_Pedido {
-    }
-
-    class Linea_Pedido {
-    }
-
-    class Agencia_Transporte {
-    }
-
-    class Albaran {
-    }
-
-    class Configuracion_Agencias {
-    }
-
-    class Caracteristicas_Articulos {
-    }
-
-    class Factura {
-    }
-
-    Division -- Pedido : "Sirve"
-    Cliente -- Pedido : "Realiza"
-    Division -- Cliente : "Tiene"
-    Pedido -- Cabecera_Pedido : "Tiene"
-    Pedido -- Agencia_Transporte : "Asignado a"
-    Agencia_Transporte -- Configuracion_Agencias: "Tiene"
-    Pedido -- Albaran : "Genera"
-    Cliente -- Configuracion_Agencias : "Tiene"
-    Cabecera_Pedido -- Linea_Pedido : "Tiene"
-    Linea_Pedido -- Articulo: "Tiene"
-    Articulo -- Caracteristicas_Articulos : "Descrito por"
-    Pedido -- Factura : "Genera"
+class Division
+class Cliente
+class Articulo
+class Pedido
+class Cabecera_Pedido
+class Linea_Pedido
+class Agencia_Transporte
+class Albaran
+class Configuracion_Agencias
+class Caracteristicas_Articulos
+class Factura
+Division -- Pedido : "Sirve"
+Cliente -- Pedido : "Realiza"
+Division -- Cliente : "Tiene"
+Pedido -- Cabecera_Pedido : "Tiene"
+Pedido -- Agencia_Transporte : "Asignado a"
+Agencia_Transporte -- Configuracion_Agencias: "Tiene"
+Pedido -- Albaran : "Genera"
+Cliente -- Configuracion_Agencias : "Tiene"
+Cabecera_Pedido -- Linea_Pedido : "Tiene"
+Linea_Pedido -- Articulo: "Tiene"
+Articulo -- Caracteristicas_Articulos : "Descrito por"
+Pedido -- Factura : "Genera"
 ```
 
 La BBDD representa diversas **Divisiones** que operan como empresas proveedoras. Estas, gestionan sus propios **Clientes**, a quienes deben suministrar los **Artículos** solicitados a través de **Pedidos**.
@@ -125,16 +106,21 @@ Cada una de estas entidades, se describen con más detalle en la sección corres
 Para consultar la **división** de la empresa o cliente en cuestión se consulta la tabla **ipdivis**. 
 
 ```sql
-select * from ipdivis;
+SELECT *
+  FROM ipdivis;
 ```
 Un ejemplo de los datos que nos vamos a encontrar en esta tabla:
 
   
-| campo1 | campo2 | campo3 | campo4 | campo5 | 
-|-----------|-----------|-----------|-----------|-----------|
-| contenido | contenido | contenido | contenido | contenido | 
-| contenido | contenido | contenido | contenido | contenido |
-| contenido | contenido | contenido | contenido | contenido |
+| CODDIV | CODEMP | CODDIVEMP | DESDIV                   | DABDIV     | NIF       | DIRECCION                     |
+|--------|--------|-----------|--------------------------|------------|-----------|-------------------------------|
+| 9148   | 001    | 9148      | MATERIALES AUROVITAS     | AUROVITAS  | A85104875 | AVDA DE BURGOS 16 D 5ª PLANTA |
+| 111    | 001    | 111       | URIAGE                   | URIAGE     | B84039544 | JUAN BRAVO                    |
+| 033    | 001    | 033       | SEDANA MEDICAL AB        | SEDANA     | W0302645G | PASEO DE LA CASTELLANA NUM    |
+| 172    | 001    | 172       | VIROPHARMA SPAIN         | VIROPHARM  | B86225760 | Avenida del Partenón          | 
+| 169    | 001    | 169       | ARTEMIS                  | ARTEMIS    | B86141504 | CEA BERMUDEZ                  |
+| 005    | 001    | 005       | RATIOPHARM INTERNACIONAL | RATIOINT   | A79347134 | C/ ANABEL SEGURA              | 
+| 311    | 001    | 311       | BECTON DICKINSON MMS     | BECTON MMS | A50140706 | CAMINO DE VALDEOLIVA S/N      | 
  
 <div id='id_pedidos' />
  
@@ -143,11 +129,15 @@ Un ejemplo de los datos que nos vamos a encontrar en esta tabla:
 Los **pedidos** están formados por una cabecera y una o múltiples líneas. Esta información, que desglosaremos y detallaremos en secciones posteriores, se almacena en la BBDD en las siguientes tablas:
  
 ```sql
-select * from ipcabpeorig; -- Cabecera de pedido origen
-select * from iplinpeorig; -- Líneas de pedido origen
+SELECT * 
+  FROM ipcabpeorig; -- Cabecera de pedido origen
+SELECT * 
+  FROM iplinpeorig; -- Líneas de pedido origen
 
-select * from ipcabpe; -- Cabecera de pedido
-select * from iplinpe; -- Líneas de pedido
+SELECT * 
+  FROM ipcabpe; -- Cabecera de pedido
+SELECT * 
+  FROM iplinpe; -- Líneas de pedido
 ```
 <div id='id_pedido_origen' />
 
@@ -157,16 +147,20 @@ El pedido origen es el resultado de la carga de datos inicial de un determinado 
 Este pedido puede facilitarse en distintos formatos (**txt**, **xlsx**, **csv**...) y ha de ser registrado en la BBDD. En este momento no se cuenta con todos los datos necesarios para conformar el pedido, pues muchos de ellos son **calculados** y será necesario ejecutar determinados procesos en la BBDD para crear el pedido final.
 
 ```sql
-select * from ipcabpeorig; -- Cabecera de pedido origen
-select * from iplinpeorig; -- Líneas de pedido origen
+SELECT * 
+  FROM ipcabpeorig; -- Cabecera de pedido origen
+SELECT * 
+  FROM from iplinpeorig; -- Líneas de pedido origen
 ```
 
 #### Pedido Final
 Una vez cargado el [pedido origen](#id_pedido_origen) se harán los procedimientos almacenados y serán calculados todos los campos necesarios para conformar el pedido. 
 
 ```sql
-select * from ipcabpe; -- Cabecera de pedido
-select * from iplinpe; -- Líneas de pedido
+SELECT * 
+  FROM ipcabpe; -- Cabecera de pedido
+SELECT * 
+  FROM iplinpe; -- Líneas de pedido
 ```
 #### Cabecera de pedido
 A continuación se muestran los campos que forman la **clave primaria** de la cabecera del pedido.
@@ -238,6 +232,50 @@ A continuación se muestran algunos de los tipos más utilizados:
         <td>Impresiones (Facturas)</td>
     </tr>
 </table>
+
+<div id='id_procesos' />
+
+### Procesos
+
+<div id='id_asignacion_agencias_transporte' />
+
+#### Asignación de Agencias de Transporte
+
+Los pedidos en este sistema constan de una estructura de **Cabecera** y **Líneas**. Cada cabecera está asociada con una o varias líneas específicas. Al iniciar la creación de un pedido, se generan tanto un pedido origen como un pedido final, lo que implica la existencia de cuatro entidades de datos: cabecera origen, línea origen, cabecera y línea.
+
+Cuando un pedido evoluciona desde su estado de origen hasta el estado final, se procede a asignarle una **Agencia de Transporte**. Esta asignación se realiza mediante la consulta de una tabla que contiene la configuración detallada de las agencias. La configuración es específica de cada **Cliente**.
+
+En el momento en el que el cliente genera un pedido, la división correspondiente se encargará de su gestión. Para comunicar el pedido, el cliente tiene la flexibilidad de enviar los datos en el formato que desee, ya sea XML, HTML, Excel u otros formatos. En este punto, se genera el pedido origen, incluyendo tanto la cabecera como las líneas, extrayendo los detalles del pedido directamente del origen proporcionado por el cliente. Posteriormente, se procede a la asignación de una agencia de transporte, marcando así la transición del pedido desde su origen hasta el estado final. Es importante destacar que cada cliente tiene asociada una configuración específica en la agencia de transporte, ajustada inicialmente al realizar el pedido, para garantizar un servicio personalizado y eficiente.
+
+```mermaid
+sequenceDiagram
+    participant Cliente
+    participant Sistema
+    participant Division
+    participant Agencia_Transporte
+    participant Configuracion_Agencia
+    participant Base_de_Datos
+
+    Cliente ->> Sistema: Enviar Datos del Pedido (XML, HTML, Excel, etc.)
+    Sistema ->> Division: Crear Pedido Origen
+    Division ->> Base_de_Datos: Generar Cabecera y Líneas del Pedido
+    Base_de_Datos -->> Division: Pedido Origen creado (Cabecera y Líneas)
+
+    Division ->> Base_de_Datos: Asignar Agencia de Transporte
+    Base_de_Datos -->> Division: Agencia de Transporte asignada
+    Division -->> Agencia_Transporte: Agencia asignada
+    Agencia_Transporte ->> Configuracion_Agencia: Consultar Configuración para Cliente
+    Configuracion_Agencia -->> Agencia_Transporte: Configuración de Agencia para Cliente
+    Agencia_Transporte -->> Division: Agencia de Transporte configurada
+
+
+    Division -->> Sistema: Pedido Origen Listo
+    Sistema ->> Base_de_Datos: Generar Pedido Final
+    Base_de_Datos -->> Sistema: Pedido Final creado
+    Sistema -->> Cliente: Pedido Finalizado
+```
+
+
 
 
 <div id='id_incidencias' />
@@ -2466,63 +2504,5 @@ C:\Programacion\Aplicaciones
 		<td>Acceso a través de borox-ts-prd.</td>
     </tr>
 </table>
-
-
-
-
--- DIAGRAMAS EN PROCESO
-
-
-Cada división tiene x cantidad de clientes.
-
-Por ejemplo KARO envía mercancía a 200 farmacias por España (esas farmacias son los clientes).
-
-Una división realiza un pedido, un pedido está formado por cabecera y linea (origen y final).
-
-Al pasar de pedido origen a pedido final, se le asigna al pedido una agencia de transporte (ipagenc, maestro de agencias).
-
-En la tabla ipagasi está la configuración de las agencias por código de cliente, peso y código postal.
-
-KARO division 235 para el cliente FARMACIA EJEMPLO se lo envía a través de la agencia de transportes NACEX por ejemplo.
-
-Para los clientes ubicados en Canarias...... enviar por la agencia de transporte XXX.
-Con el peso lo mismo, a partir de un rango.... enviar por X, a partir de otro rango enviar por Y.
-
-Asignacion de agencias -> DIAGRAMA 1
-
-Artículos -> DIAGRAMA 2
-
-El maestro de artículos es ipartic, ahí está toda la inforamción del artículo, como su precio, su descripción...
-Se almacena por coddiv (cada division tiene sus propios artículos), codart, codartdiv
-
-Por ejemplo KARO tiene el artículo 123.
-
-Lo almacenamos en el campo codartdiv
-El código de artículo de ALLOGA para KARO es codart, va compuesto por la division + codartdiv
-
-Ejemplo:
-KARO es la división 471 y tiene un artículo con codartdiv 001. ALLOGA guardaría 471001.
-471   001, 002, .... 500 ----- 471001, 471002
-
-Hay otra tabla donde se pueden ver las características de cada artículo. Esta tabla es: IPARTPROPLOG, aqui se puede ver: peso, largo, ancho.........
-
-PROCESO DE FACTURACIÓN -> DIAGRAMA 3
-
-En la tabla xipcontfac se confirguran las series por división, serie y tipo de factura.
-
-Los tipos de factura comunes a A-F-R (Abono-Factura-Rectificativa)
-
-En el TRIGGER updfacvemedia se valida por división si existe configuración en la tabla xipcontfac y asigna el consecutivo almacenado en esa tabla. 
-
-```sql
-AND (CONTFAC=0 or contfac is null) AND STATUS>7000
-```
-
-Valida que la factura esté 0 o null y status mayor a 7000.
-
-Algunos clientes asignan el consecutivo (contfac) de su facturación a través de su propio traductor. Lo harán en este caso, tomando el máximo número de factura + 1.
-
-Si no está en el trigger, puede estar en el traductor (Visual Basic) o tener un PROCEDURE específico.
-
 
 
